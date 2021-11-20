@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<title>Currency Converter</title>
+<style>
+    body{
+        background-color:gray;
+    }
+#box{
+    width: 350px;
+    height:160px;
+    margin: 250px auto;
+    border:2px solid black;
+    background-color: rgb(253, 194, 203);
+}
+h2{
+    text-align:center;
+}
+table{
+    margin: 0px auto;
+}
+
+</style>
+<script>
+    function ConvertCurrency(){
+var from = document.getElementById("from").value;
+var to = document.getElementById("to").value;
+var xmlhttp = new XMLHttpRequest();
+var url = "https://api.exchangerate.host/latest';"+ from + "," + to;
+xmlhttp.open("GET",url,true);
+xmlhttp.send();
+xmlhttp.onreadystatechange = function(){
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+    {
+        var result = xmlhttp.responseText;
+        jsResult = JSON.parse(result);
+    var oneUnit = jsResult.rates[to]/jsResult.rates[from];
+    var amt = document.getElementById("fromAmount").value;
+    document.getElementById("toAmount").value = (oneUnit*amt).toFixed(2);
+
+    } 
+}
+    }
+</script>
+<body onload = "ConvertCurrency();">
+    <div id = "box"> 
+  <h2>Currency Converter</h2>
+<table>
+    <tr>
+        <td><input id ="fromAmount" type="text" size = "15" value = "1" onkeyup="ConvertCurrency();"/></td>
+    <td>
+        <select id = "from" onchange = "ConvertCurrency();">
+            <option value ="AUD">Australian Dollar(AUD)</option>
+            <option value ="USD" selected>US Dollar(USD)</option>
+            <option value ="BSD"> Bahamian Dollar(BSD)</option>
+            <option value ="XOF"> CFA Franc BCEAO(XOF)</option>
+            <option value ="KHR"> Kampuchean Riel(KHR)</option>
+            <option value =" NZD"> New Zealand Dollar(NZD)</option>
+            <option value =" MYR">Malaysian Ringgit(MYR)</option>
+            <option value =" PKR">Pakistan Rupee(PKR)</option>
+            <option value ="INR">Indian Rupee(INR)</option>
+        </select>
+    </td>
+    </tr>
+    <tr>
+        <td><input id ="toAmount" type="text" size ="15" disabled/></td>
+        <td>
+            <select id = "to" onchange = "ConvertCurrency();">
+                <option value ="AUD">Australian Dollar(AUD)</option>
+                <option value ="USD">US Dollar(USD)</option>
+                <option value ="BSD"> Bahamian Dollar(BSD)</option>
+                <option value ="XOF"> CFA Franc BCEAO(XOF)</option>
+                <option value ="KHR"> Kampuchean Riel(KHR)</option>
+                <option value =" NZD"> New Zealand Dollar(NZD)</option>
+                <option value =" MYR">Malaysian Ringgit(MYR)</option>
+                <option value =" PKR">Pakistan Rupee(PKR)</option>
+                <option value ="INR" selected>Indian Rupee(INR)</option>
+            </select>
+        </td>
+    </tr>
+</table>
+
+    </div>
+</body>
+</html>
